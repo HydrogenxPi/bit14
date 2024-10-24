@@ -7,7 +7,7 @@ https://en.cppreference.com/w/cpp/header/bit
 This project is intended for anyone who wishes to use the standard
 library header bit.h but is stuck on c++14 or 17.
 Simply add folder bit14 to an include directory in your project
-and #inclde header bit14.h where desired.
+and #include header bit14.h where desired.
 On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX,
 or Intel ICC / ICPX compilers it uses compiler intrinsics whenever
 available. Otherwise, it falls back on a generic solution.
