@@ -5,7 +5,7 @@ This is a recreation of the c++20 bit header written in ISO C++14.
 https://en.cppreference.com/w/cpp/header/bit
 
 This project is intended for anyone who wishes to use the standard
-library header bit.h but is stuck on c++14 or c++17.
+library header bit.h but is stuck on c++14 or 17.
 Simply add the folder containing this header to an include
 directory in your project and #inclde header bit14.h where desired.
 On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX,
