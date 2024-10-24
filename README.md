@@ -4,16 +4,11 @@ This is a recreation of the c++20 bit header written in C++14.
 
 https://en.cppreference.com/w/cpp/header/bit
 
-This project is intended for anyone who wishes to use the standard
-library header bit.h but is stuck on c++14 or 17.
-Simply add folder bit14 to an include directory in your project
-and #include header bit14.h where desired.
-On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX,
-or Intel ICC / ICPX compilers it uses x86 or ARM intrinsics whenever
-available. Otherwise, it falls back on a generic solution.
-On other compilers, a fully generic solution is used.
-All function descriptions on cppreference.com apply exactly to
-the functions in this header with the following exceptions:
+This project is intended for anyone who wishes to use the standard library header bit.h but is stuck on c++14 or 17.
+Simply add folder bit14 to your list of include directories in your project and #include bit14.h where desired.
+On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX, or Intel ICC / ICPX compilers it uses x86 or ARM intrinsics whenever available.
+Otherwise, it falls back on a generic solution. On other compilers, a fully generic solution is used.
+All function descriptions on cppreference.com apply exactly to the functions in this header with the following exceptions:
 
 * All functions in this header exist within namespace bit14.
 * Extended integer types are not supported.
