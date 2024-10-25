@@ -613,13 +613,7 @@ namespace bit14
 #endif //end of #ifdef BIT14_MIGHT_HAVE_ABM_INTRINSICS
 #endif //end of #if defined(BIT14_USING_X86_OR_X64) 
 
-//#ifdef _M_ARM
-//#include <armintr.h>
-//#elif defined(_M_ARM64)
-//#include <arm64intr.h>
-//#endif
-
-#if defined(_M_ARM) || defined(_M_ARM64)
+#ifdef BIT14_USING_ARM
 		template <typename T, use_if_bit14_32_bit_or_less_type<T> = true>
 		int popcount_arm(const T value) noexcept
 		{
