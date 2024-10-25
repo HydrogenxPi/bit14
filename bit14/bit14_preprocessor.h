@@ -52,3 +52,7 @@ defined(_M_IX86) || defined(__LP64__) ||defined(_M_AMD64) || defined(_M_X64) ||\
  defined(__LP64) || defined(_M_X64) || defined(_M_ARM64)
 #define BIT14_USING_64BIT
 #endif
+
+#if defined(__arm__) || defined(__aarch64__) || defined(_M_ARM64) || defined(_M_ARM)
+#define BIT14_USING_ARM
+#endif
