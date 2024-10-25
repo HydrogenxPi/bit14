@@ -332,7 +332,7 @@ namespace bit14
 		==============================================*/
 
 #if defined(BIT14_USING_MSVC)
-#if defined(BIT14_USING_X86_OR_X64) 
+#if defined(BIT14_USING_X86) 
 #if defined(_M_IX86) || defined(_M_ARM) || defined(_WIN64)
 #define BIT14_HAS_BSF_INTRINSICS
 #endif
@@ -611,7 +611,7 @@ namespace bit14
 		}
 #endif //end of #ifdef _WIN64
 #endif //end of #ifdef BIT14_MIGHT_HAVE_ABM_INTRINSICS
-#endif //end of #if defined(BIT14_USING_X86_OR_X64) 
+#endif //end of #if defined(BIT14_USING_X86) 
 
 #ifdef BIT14_USING_ARM
 		template <typename T, use_if_bit14_32_bit_or_less_type<T> = true>
@@ -695,7 +695,7 @@ namespace bit14
 		=======================================================*/
 
 #if defined(BIT14_USING_ICC) || defined(BIT14_USING_ICPX)
-#ifdef BIT14_USING_X86_OR_X64
+#ifdef BIT14_USING_X86
 #define BIT14_HAS_BSF_INTRINSICS
 #define BIT14_MIGHT_HAVE_BMI_INTRINSICS
 #endif
@@ -809,7 +809,7 @@ namespace bit14
 #endif //end of #ifdef _WIN64
 #endif //end of #ifndef BIT14_HAS_BSF_INTRINSICS
 
-#ifdef BIT14_USING_X86_OR_X64
+#ifdef BIT14_USING_X86
 #define BIT14_HAS_BSR_INTRINSICS
 #endif
 

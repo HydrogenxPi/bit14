@@ -32,14 +32,14 @@
 =========================================================================
 ||| This is a recreation of the c++20 bit header written in ISO C++14.
 ||| https://en.cppreference.com/w/cpp/header/bit
-||| This project is intended for anyone who wishes to use the standard
-||| library header bit.h but is stuck on c++14 or c++17.
-||| Simply add the folder containing this header to your list of include
-||| directories in your project and #inclde header bit14.h where desired.
+|||	This project is intended for anyone who wishes to use the standard
+|||	library header bit.h but is stuck on c++14 or c++17.
+|||	Simply add the folder containing this header to the list of include
+|||	directories in your project and #inclde header bit14.h where desired.
 ||| On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX,
-||| or Intel ICC / ICPX compilers it uses compiler intrinsics whenever
-||| available. Otherwise, it falls back on a generic solution.
-||| On other compilers, a fully generic solution is used.
+|||	or Intel ICC / ICPX compilers it uses compiler intrinsics whenever
+|||	available. Otherwise, it falls back on a generic solution.
+|||	On other compilers, a fully generic solution is used.
 ||| All function descriptions on cppreference.com apply exactly to
 ||| the functions in this header with the following exceptions:
 |||
@@ -381,7 +381,7 @@ namespace bit14
 #define BIT14_HAS_BMI_INTRINSICS
 #endif
 
-#ifdef BIT14_USING_X86_OR_X64
+#ifdef BIT14_USING_X86
 #define BIT14_MIGHT_HAVE_BMI_INTRINSICS
 #define BIT14_HAS_BSF_INTRINSICS
 #define BIT14_HAS_BSR_INTRINSICS
@@ -509,7 +509,7 @@ namespace bit14
 		native = __BYTE_ORDER__
 	};
 
-#if defined(BIT14_USING_X86_OR_X64) || defined(BIT14_USING_ARM)
+#if defined(BIT14_USING_X86) || defined(BIT14_USING_ARM)
 #undef BIT14_POPCOUNT_FALLBACK
 #undef BIT14_COUNTR_ZERO_FALLBACK
 #undef BIT14_COUNTL_ZERO_FALLBACK
@@ -621,7 +621,7 @@ namespace bit14
 		const uint64_t result = __builtin_bswap64(static_cast<uint64_t>(value));
 		return static_cast<T>(result);
 	}
-#endif //end of #ifdef BIT14_USING_X86_OR_X64
+#endif //end of #ifdef BIT14_USING_X86 || defined(BIT14_USING_ARM)
 #endif //end of #if defined(BIT14_USING_CLANG) || defined(BIT14_USING_GCC)
 
 	/*====================================================
