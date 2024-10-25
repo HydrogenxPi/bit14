@@ -37,8 +37,8 @@
 |||	Simply add the folder containing this header to the list of include
 |||	directories in your project and #inclde header bit14.h where desired.
 ||| On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX,
-|||	or Intel ICC / ICPX compilers it uses compiler intrinsics whenever
-|||	available. Otherwise, it falls back on a generic solution.
+|||	or Intel ICC / ICPX compilers it uses x86, ARM or Power intrinsics
+|||	whenever available. Otherwise, it falls back on a generic solution.
 |||	On other compilers, a fully generic solution is used.
 ||| All function descriptions on cppreference.com apply exactly to
 ||| the functions in this header with the following exceptions:
