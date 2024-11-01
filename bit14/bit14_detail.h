@@ -37,6 +37,8 @@
 #include "bit14_cpuinfo.h"
 #include "bit14_preprocessor.h"
 
+#define BIT14_VERSION 1_00
+
 #define BIT14_POPCOUNT_FALLBACK
 #define BIT14_COUNTR_ZERO_FALLBACK
 #define BIT14_COUNTL_ZERO_FALLBACK
