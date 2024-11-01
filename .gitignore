@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /.gitattributes
 /.gitignore
+/bit14/bit14.vcxproj
+/bit14/bit14.vcxproj.filters
+/bit14.sln
