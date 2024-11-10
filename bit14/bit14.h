@@ -2,32 +2,6 @@
 
 #pragma once
 
-/*=================================================================================
-===================================================================================
-|||	MIT License
-|||	
-|||	Copyright (c) 2024, agrem44@gmail.com
-|||
-|||	Permission is hereby granted, free of charge, to any person obtaining a copy
-|||	of this software and associated documentation files (the "Software"), to deal
-|||	in the Software without restriction, including without limitation the rights
-|||	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-|||	copies of the Software, and to permit persons to whom the Software is
-|||	furnished to do so, subject to the following conditions:
-|||
-|||	The above copyright notice and this permission notice shall be included in all
-|||	copies or substantial portions of the Software.
-|||
-|||	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-|||	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-|||	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-|||	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-|||	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-|||	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-|||	SOFTWARE.
-===================================================================================
-===================================================================================*/
-
 /*=======================================================================
 =========================================================================
 ||| This is a recreation of the c++20 bit header written in ISO C++14.
@@ -54,6 +28,7 @@
 ||| * The endian enum only exists on gcc, clang, msvc, IBM XL / Open XL
 |||		for Linux or AIX and Intel ICC / ICPX compilers.
 ||| * If using c++14, bit14::byteswap does not check for padding bits.
+|||	* bit14::bitceil is noexcept
 |||
 ||| ====================================================================
 |||	==		    		--- constexpr functions --		    		  ==
@@ -1183,7 +1158,8 @@ namespace bit14
 	template <typename T, use_if_bit14_type<T> = true>
 	T bit_ceil(const T value) noexcept
 	{
-		const int shift = numeric_limits<T>::digits - bit14::countl_zero(static_cast<T>(value - 1));
+		const bool not_zero = (value != 0);
+		const int shift = numeric_limits<T>::digits - bit14::countl_zero(static_cast<T>(value - not_zero));
 		assert(shift < numeric_limits<T>::digits);
 		return T{ 1 } << shift;
 	}
