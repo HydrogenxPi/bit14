@@ -88,7 +88,6 @@ namespace bit14
 	||   vvvv    Start of msvc section    vvvv   ||
 	===============================================*/
 #ifdef BIT14_USING_MSVC
-
 	enum class endian
 	{
 		little = 0,
@@ -1395,6 +1394,9 @@ namespace bit14
 	template <typename T, T Value, use_if_bit14_type<T> = true>
 	constexpr T bit_ceil() noexcept
 	{
+		if (Value == 0)
+			return 1;
+
 		constexpr int shift = numeric_limits<T>::digits -
 			countl_zero<T, static_cast<T>(Value - 1)>();
 
