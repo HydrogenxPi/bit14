@@ -30,16 +30,6 @@
 
 #include "bit14_preprocessor.h"
 
-/*
-#if defined(_MSC_VER) && defined(BIT14_USING_CLANG) && defined(BIT14_USING_X86)
-#ifdef BIT14_USING_64BIT
-#pragma comment(lib, "clang_rt.builtins-x86_64.lib")
-#else
-#pragma comment(lib, "clang_rt.builtins-i386.lib")
-#endif
-#endif
-*/
-
 #if defined(BIT14_USING_X86)
 #if(defined(BIT14_USING_MSVC) || defined(BIT14_USING_ICC) || defined(BIT14_USING_ICPX))
 #define BIT14_HAS_CPUID
