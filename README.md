@@ -21,6 +21,7 @@ All function descriptions on cppreference.com apply exactly to the functions in 
 * The endian enum only exists on gcc, clang, msvc, IBM XL / Open XL
   for Linux or AIX and Intel ICC / ICPX compilers.
 * If using c++14, bit14::byteswap does not check for padding bits.
+* bit14::bitceil is noexcept
 
 ## constexpr functions
 
