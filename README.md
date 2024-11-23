@@ -10,7 +10,7 @@ On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX, or Intel ICC / ICPX comp
 Otherwise, it falls back on a generic solution. On other compilers, a fully generic solution is used.
 All function descriptions on cppreference.com apply exactly to the functions in this header with the following exceptions:
 
-* All functions in this header exist within namespace bit14.
+* All functions and enums in this header exist within namespace bit14.
 * Extended integer types are not supported.
 * The target platform must use the ILP32, LLP64 or LP64 data model,
   meaning char = 1 byte, short = 2 bytes, int = 4 bytes,
