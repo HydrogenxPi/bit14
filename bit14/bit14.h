@@ -1,31 +1,5 @@
 //bit14.h
 
-/*=================================================================================
-===================================================================================
-|||	MIT License
-|||
-|||	Copyright (c) 2024, agrem44@gmail.com
-|||
-|||	Permission is hereby granted, free of charge, to any person obtaining a copy
-|||	of this software and associated documentation files (the "Software"), to deal
-|||	in the Software without restriction, including without limitation the rights
-|||	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-|||	copies of the Software, and to permit persons to whom the Software is
-|||	furnished to do so, subject to the following conditions:
-|||
-|||	The above copyright notice and this permission notice shall be included in all
-|||	copies or substantial portions of the Software.
-|||
-|||	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-|||	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-|||	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-|||	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-|||	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-|||	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-|||	SOFTWARE.
-===================================================================================
-===================================================================================*/
-
 #pragma once
 
 /*=======================================================================
@@ -43,7 +17,7 @@
 ||| All function descriptions on cppreference.com apply exactly to
 ||| the functions in this header with the following exceptions:
 |||
-||| * All functions in this header exist within namespace bit14.
+||| * All functions and enums in this header exist within namespace bit14.
 |||	* Extended integer types are not supported.
 ||| * The target platform must use the ILP32, LLP64 or LP64 data model,
 |||		meaning char = 1 byte, short = 2 bytes, int = 4 bytes,
@@ -540,61 +514,101 @@ namespace bit14
 		return __builtin_popcountll(value);
 	}
 
-	int countr_zero(const unsigned char value) noexcept
+	template<typename T, use_if_unsigned_char<T> = true>
+	int countr_zero(const T value) noexcept
 	{
-		constexpr unsigned char mask = static_cast<unsigned char>(-1);
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
+		constexpr T mask = static_cast<T>(-1);
 		const unsigned int result = __builtin_ctz(static_cast<unsigned int>((~mask) | value));
 		return static_cast<int>(result);
 	}
 
-	int countr_zero(const unsigned short value) noexcept
+	template<typename T, use_if_unsigned_short<T> = true>
+	int countr_zero(const T value) noexcept
 	{
-		constexpr unsigned short mask = static_cast<unsigned short>(-1);
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
+		constexpr T mask = static_cast<T>(-1);
 		const unsigned int result = __builtin_ctz(static_cast<unsigned int>((~mask) | value));
 		return static_cast<int>(result);
 	}
 
-	int countr_zero(const unsigned int value) noexcept
+	template<typename T, use_if_unsigned_int<T> = true>
+	int countr_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		return __builtin_ctz(value);
 	}
 
-	int countr_zero(const unsigned long value) noexcept
+	template<typename T, use_if_unsigned_long<T> = true>
+	int countr_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		return __builtin_ctzl(value);
 	}
 
-	int countr_zero(const unsigned long long value) noexcept
+	template<typename T, use_if_unsigned_long_long<T> = true>
+	int countr_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		return __builtin_ctzll(value);
 	}
 
-	int countl_zero(const unsigned char value) noexcept
+	template<typename T, use_if_unsigned_char<T> = true>
+	int countl_zero(const T value) noexcept
 	{
-		constexpr int diff = numeric_limits<unsigned int>::digits - numeric_limits<unsigned char>::digits;
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
+		constexpr int diff = numeric_limits<unsigned int>::digits - numeric_limits<T>::digits;
 		const int result = __builtin_clz(static_cast<unsigned int>(value));
-		return diff - result;
+		return result - diff;
 	}
 
-	int countl_zero(const unsigned short value) noexcept
+	template<typename T, use_if_unsigned_short<T> = true>
+	int countl_zero(const T value) noexcept
 	{
-		constexpr int diff = numeric_limits<unsigned int>::digits - numeric_limits<unsigned short>::digits;
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
+		constexpr int diff = numeric_limits<unsigned int>::digits - numeric_limits<T>::digits;
 		const int result = __builtin_clz(static_cast<unsigned int>(value));
-		return diff - result;
+		return result - diff;
 	}
 
-	int countl_zero(const unsigned int value) noexcept
+	template<typename T, use_if_unsigned_int<T> = true>
+	int countl_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		return __builtin_clz(value);
 	}
 
-	int countl_zero(const unsigned long value) noexcept
+	template<typename T, use_if_unsigned_long<T> = true>
+	int countl_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		return __builtin_clzl(value);
 	}
 
-	int countl_zero(const unsigned long long value) noexcept
+	template<typename T, use_if_unsigned_long_long<T> = true>
+	int countl_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		return __builtin_clzll(value);
 	}
 
@@ -635,33 +649,37 @@ namespace bit14
 #undef BIT14_ROTR_FALLBACK
 
 #if __has_builtin(__builtin_rotateright8) && __has_builtin(__builtin_rotateleft8)
-	unsigned char rotl(const unsigned char value, int shift) noexcept
+	template<typename T, use_if_unsigned_char<T> = true>
+	T rotl(const T value, int shift) noexcept
 	{
-		shift = shift % numeric_limits<unsigned char>::digits;
+		shift = shift % numeric_limits<T>::digits;
 
 		if (shift < 0)
-			return __builtin_rotateright8(value, static_cast<unsigned char>(-shift));
+			return __builtin_rotateright8(value, static_cast<T>(-shift));
 		else
-			return __builtin_rotateleft8(value, static_cast<unsigned char>(shift));
+			return __builtin_rotateleft8(value, static_cast<T>(shift));
 	}
 
-	unsigned char rotr(const unsigned char value, int shift) noexcept
+	template<typename T, use_if_unsigned_char<T> = true>
+	T rotr(const T value, int shift) noexcept
 	{
-		shift = shift % numeric_limits<unsigned char>::digits;
+		shift = shift % numeric_limits<T>::digits;
 
 		if (shift < 0)
-			return __builtin_rotateleft8(value, static_cast<unsigned char>(-shift));
+			return __builtin_rotateleft8(value, static_cast<T>(-shift));
 		else
-			return __builtin_rotateright8(value, static_cast<unsigned char>(shift));
+			return __builtin_rotateright8(value, static_cast<T>(shift));
 	}
 
 #else
-	unsigned char rotl(const unsigned char value, const int shift) noexcept
+	template<typename T, use_if_unsigned_char<T> = true>
+	T rotl(const T value, const int shift) noexcept
 	{
 		return detail::rotl_fallback(value, shift);
 	}
 
-	unsigned char rotr(const unsigned char value, const int shift) noexcept
+	template<typename T, use_if_unsigned_char<T> = true>
+	T rotr(const T value, const int shift) noexcept
 	{
 		return detail::rotr_fallback(value, shift);
 	}
@@ -669,33 +687,37 @@ namespace bit14
 #endif
 
 #if __has_builtin(__builtin_rotateright16) && __has_builtin(__builtin_rotateleft16)
-	unsigned short rotl(const unsigned short value, int shift) noexcept
+	template<typename T, use_if_unsigned_short<T> = true>
+	T rotl(const T value, int shift) noexcept
 	{
-		shift = shift % numeric_limits<unsigned short>::digits;
+		shift = shift % numeric_limits<T>::digits;
 
 		if (shift < 0)
-			return __builtin_rotateright16(value, static_cast<unsigned short>(-shift));
+			return __builtin_rotateright16(value, static_cast<T>(-shift));
 		else
-			return __builtin_rotateleft16(value, static_cast<unsigned short>(shift));
+			return __builtin_rotateleft16(value, static_cast<T>(shift));
 	}
 
-	unsigned short rotr(const unsigned short value, int shift) noexcept
+	template<typename T, use_if_unsigned_short<T> = true>
+	T rotr(const T value, int shift) noexcept
 	{
-		shift = shift % numeric_limits<unsigned short>::digits;
+		shift = shift % numeric_limits<T>::digits;
 
 		if (shift < 0)
-			return __builtin_rotateleft16(value, static_cast<unsigned short>(-shift));
+			return __builtin_rotateleft16(value, static_cast<T>(-shift));
 		else
-			return __builtin_rotateright16(value, static_cast<unsigned short>(shift));
+			return __builtin_rotateright16(value, static_cast<T>(shift));
 	}
 
 #else
-	unsigned short rotl(const unsigned short value, const int shift) noexcept
+	template<typename T, use_if_unsigned_short<T> = true>
+	T rotl(const T value, const int shift) noexcept
 	{
 		return detail::rotl_fallback(value, shift);
 	}
 
-	unsigned short rotr(const unsigned short value, const int shift) noexcept
+	template<typename T, use_if_unsigned_short<T> = true>
+	T rotr(const T value, const int shift) noexcept
 	{
 		return detail::rotr_fallback(value, shift);
 	}
@@ -1078,10 +1100,6 @@ namespace bit14
 #ifdef BIT14_COUNTL_ZERO_FALLBACK
 	int countl_zero(unsigned char value) noexcept
 	{
-		static_assert(numeric_limits<unsigned char>::digits ==
-			numeric_limits<uint8_t>::digits,
-			"Non-compliant bit width for type unsigned char.\n");
-
 		value |= (value >> 1);
 		value |= (value >> 2);
 		value |= (value >> 4);
@@ -1091,10 +1109,6 @@ namespace bit14
 
 	int countl_zero(unsigned short value) noexcept
 	{
-		static_assert(numeric_limits<unsigned short>::digits ==
-			numeric_limits<uint16_t>::digits,
-			"Non-compliant bit width for type unsigned short.\n");
-
 		value |= (value >> 1);
 		value |= (value >> 2);
 		value |= (value >> 4);
@@ -1162,13 +1176,13 @@ namespace bit14
 	template <typename T, use_if_bit14_type<T> = true>
 	int countr_one(const T value) noexcept
 	{
-		return bit14::countr_zero(~value);
+		return bit14::countr_zero<T>(~value);
 	}
 
 	template <typename T, use_if_bit14_type<T> = true>
 	int countl_one(const T value) noexcept
 	{
-		return bit14::countl_zero(~value);
+		return bit14::countl_zero<T>(~value);
 	}
 
 	template <typename T, use_if_bit14_type<T> = true>
@@ -1199,7 +1213,7 @@ namespace bit14
 	To bit_cast(const From& src) noexcept
 	{
 		static_assert(std::is_trivially_constructible<To>::value,
-			"This implementation additionally requires "
+			"Library bit14 additionally requires "
 				"destination type to be trivially constructible.\n");
 
 		To dst;
