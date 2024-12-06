@@ -849,6 +849,9 @@ namespace bit14
 
 	int countr_zero(const unsigned char value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		constexpr unsigned char mask = static_cast<unsigned char>(-1);
 		const unsigned int result = IBM_CTZ_32(static_cast<unsigned int>((~mask) | value));
 		return static_cast<int>(result);
@@ -856,6 +859,9 @@ namespace bit14
 
 	int countr_zero(const unsigned short value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		constexpr unsigned short mask = static_cast<unsigned short>(-1);
 		const unsigned int result = IBM_CTZ_32(static_cast<unsigned int>((~mask) | value));
 		return static_cast<int>(result);
@@ -864,6 +870,9 @@ namespace bit14
 	template <typename T, use_if_bit14_32_bit_type<T> = true>
 	int countr_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		const unsigned int result = IBM_CTZ_32(static_cast<unsigned int>(value));
 		return static_cast<int>(result);
 	}
@@ -871,12 +880,18 @@ namespace bit14
 	template <typename T, use_if_bit14_64_bit_type<T> = true>
 	int countr_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		const unsigned int result = IBM_CTZ_64(static_cast<unsigned long long>(value));
 		return static_cast<int>(result);
 	}
 
 	int countl_zero(const unsigned char value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		constexpr unsigned int diff = numeric_limits<unsigned int>::digits -
 			numeric_limits<unsigned char>::digits;
 		const unsigned int result = IBM_CLZ_32(static_cast<unsigned int>(value));
@@ -885,6 +900,9 @@ namespace bit14
 
 	int countl_zero(const unsigned short value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		constexpr unsigned int diff = numeric_limits<unsigned int>::digits -
 			numeric_limits<unsigned short>::digits;
 		const unsigned int result = IBM_CLZ_32(static_cast<unsigned int>(value));
@@ -894,6 +912,9 @@ namespace bit14
 	template <typename T, use_if_bit14_32_bit_type<T> = true>
 	int countl_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		const unsigned int result = IBM_CLZ_32(static_cast<unsigned int>(value));
 		return static_cast<int>(result);
 	}
@@ -901,6 +922,9 @@ namespace bit14
 	template <typename T, use_if_bit14_64_bit_type<T> = true>
 	int countl_zero(const T value) noexcept
 	{
+		if (value == 0)
+			return numeric_limits<T>::digits;
+
 		const unsigned int result = IBM_CLZ_64(static_cast<unsigned long long>(value));
 		return static_cast<int>(result);
 	}
