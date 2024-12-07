@@ -1214,7 +1214,7 @@ namespace bit14
 	{
 		constexpr int digits = numeric_limits<T>::digits - 1;
 		const bool is_zero = (value == 0);
-		const int shift = digits + is_zero - bit14::countl_zero(value);
+		const int shift = digits + is_zero - bit14::countl_zero<T>(value);
 		return T{ !is_zero } << shift;
 	}
 
@@ -1222,7 +1222,7 @@ namespace bit14
 	T bit_ceil(const T value) noexcept
 	{
 		const bool not_zero = (value != 0);
-		const int shift = numeric_limits<T>::digits - bit14::countl_zero(static_cast<T>(value - not_zero));
+		const int shift = numeric_limits<T>::digits - bit14::countl_zero<T>(static_cast<T>(value - not_zero));
 		assert(shift < numeric_limits<T>::digits);
 		return T{ 1 } << shift;
 	}
@@ -1230,7 +1230,7 @@ namespace bit14
 	template <typename T, use_if_bit14_type<T> = true>
 	int bit_width(const T value) noexcept
 	{
-		return numeric_limits<T>::digits - bit14::countl_zero(value);
+		return numeric_limits<T>::digits - bit14::countl_zero<T>(value);
 	}
 
 	template<class To, class From, enable_if_types_are_trivally_copyable_and_same_size<To, From> = true>
