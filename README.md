@@ -1,6 +1,6 @@
 # bit14
 
-This is a recreation of the c++20 bit header written in C++14.
+This is a recreation of the C++20 bit header written in C++14.
 
 https://en.cppreference.com/w/cpp/header/bit
 
