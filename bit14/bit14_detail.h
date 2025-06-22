@@ -2,32 +2,6 @@
 
 #pragma once
 
-/*=================================================================================
-===================================================================================
-|||	MIT License
-|||
-|||	Copyright (c) 2024, agrem44@gmail.com
-|||
-|||	Permission is hereby granted, free of charge, to any person obtaining a copy
-|||	of this software and associated documentation files (the "Software"), to deal
-|||	in the Software without restriction, including without limitation the rights
-|||	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-|||	copies of the Software, and to permit persons to whom the Software is
-|||	furnished to do so, subject to the following conditions:
-|||
-|||	The above copyright notice and this permission notice shall be included in all
-|||	copies or substantial portions of the Software.
-|||
-|||	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-|||	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-|||	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-|||	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-|||	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-|||	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-|||	SOFTWARE.
-===================================================================================
-===================================================================================*/
-
 #include <cstdint>			//uint8_t, uint16_t, uint32_t, uint64_t, int32_t
 #include <type_traits>		//true_type, false_type, is_integral, conditional, is_trivially_copyable, is_same,
 								//remove_cv, has_unique_object_representations_v
@@ -37,8 +11,7 @@
 #include "bit14_cpuinfo.h"
 #include "bit14_preprocessor.h"
 
-#define BIT14_VERSION 1_00
-
+#define BIT14_VERSION 101
 #define BIT14_POPCOUNT_FALLBACK
 #define BIT14_COUNTR_ZERO_FALLBACK
 #define BIT14_COUNTL_ZERO_FALLBACK
@@ -243,7 +216,7 @@ namespace bit14
 		{
 #if	(__cplusplus >= 201703L) || (_MSVC_LANG >= 201703L)
 			static_assert(std::has_unique_object_representations_v<T>,
-				"Type bit14::byteswap argument may not have padding bits.\n");
+				"bit14::byteswap argument may not have padding bits.\n");
 #endif
 		}
 
@@ -348,14 +321,14 @@ namespace bit14
 #endif
 
 #ifdef BIT14_MIGHT_HAVE_BMI_INTRINSICS
-		int countr_zero_bmi(const unsigned char value) noexcept
+		inline int countr_zero_bmi(const unsigned char value) noexcept
 		{
 			constexpr unsigned char mask = static_cast<unsigned char>(-1);
 			const unsigned int result = _tzcnt_u32(static_cast<unsigned int>((~mask) | value));
 			return static_cast<int>(result);
 		}
 
-		int countr_zero_bmi(const unsigned short value) noexcept
+		inline int countr_zero_bmi(const unsigned short value) noexcept
 		{
 			constexpr unsigned short mask = static_cast<unsigned short>(-1);
 			const unsigned int result = _tzcnt_u32(static_cast<unsigned int>((~mask) | value));
@@ -396,7 +369,7 @@ namespace bit14
 #endif //end of #ifdef BIT14_MIGHT_HAVE_BMI_INTRINSICS
 
 #ifdef BIT14_HAS_BSF_INTRINSICS
-		int countr_zero_bsf(const unsigned char value) noexcept
+		inline int countr_zero_bsf(const unsigned char value) noexcept
 		{
 			constexpr unsigned long mask = ~static_cast<unsigned long>(-1);
 			unsigned long result;
@@ -407,7 +380,7 @@ namespace bit14
 			return static_cast<int>(result);
 		}
 
-		int countr_zero_bsf(const unsigned short value) noexcept
+		inline int countr_zero_bsf(const unsigned short value) noexcept
 		{
 			constexpr unsigned long mask = ~static_cast<unsigned long>(-1);
 			unsigned long result;
@@ -466,7 +439,7 @@ namespace bit14
 #endif
 
 #ifdef BIT14_MIGHT_HAVE_ABM_INTRINSICS
-		int countl_zero_lzcnt(const unsigned char value) noexcept
+		inline int countl_zero_lzcnt(const unsigned char value) noexcept
 		{
 			constexpr unsigned int diff = numeric_limits<unsigned int>::digits -
 				numeric_limits<unsigned char>::digits;
@@ -474,7 +447,7 @@ namespace bit14
 			return static_cast<int>(result - diff);
 		}
 
-		int countl_zero_lzcnt(const unsigned short value) noexcept
+		inline int countl_zero_lzcnt(const unsigned short value) noexcept
 		{
 			const unsigned short result = __lzcnt16(value);
 			return static_cast<int>(result);
@@ -510,7 +483,7 @@ namespace bit14
 #endif //end of #ifdef BIT14_USING_64BIT
 #endif //end of #ifdef BIT14_MIGHT_HAVE_ABM_INTRINSICS
 #ifdef BIT14_HAS_BSR_INTRINSICS
-		int countl_zero_bsr(const unsigned char value) noexcept
+		inline int countl_zero_bsr(const unsigned char value) noexcept
 		{
 			constexpr int digits = numeric_limits<unsigned char>::digits - 1;
 			unsigned long result;
@@ -521,7 +494,7 @@ namespace bit14
 			return numeric_limits<unsigned char>::digits;
 		}
 
-		int countl_zero_bsr(const unsigned short value) noexcept
+		inline int countl_zero_bsr(const unsigned short value) noexcept
 		{
 			constexpr int digits = numeric_limits<unsigned short>::digits - 1;
 			unsigned long result;
@@ -575,13 +548,13 @@ namespace bit14
 #endif //end of #ifdef _WIN64
 #endif //end of #ifdef BIT14_HAS_BSR_INTRINSICS
 #ifdef BIT14_MIGHT_HAVE_ABM_INTRINSICS
-		int popcount_abm(const unsigned char value) noexcept
+		inline int popcount_abm(const unsigned char value) noexcept
 		{
 			const unsigned int result = __popcnt(static_cast<unsigned int>(value));
 			return static_cast<int>(result);
 		}
 
-		int popcount_abm(const unsigned short value) noexcept
+		inline int popcount_abm(const unsigned short value) noexcept
 		{
 			const unsigned int result = __popcnt(static_cast<unsigned int>(value));
 			return static_cast<int>(result);
@@ -630,14 +603,14 @@ namespace bit14
 			return static_cast<int>(result);
 		}
 		
-		int countr_zero_arm(const unsigned char value) noexcept
+		inline int countr_zero_arm(const unsigned char value) noexcept
 		{
 			constexpr unsigned char mask = static_cast<unsigned char>(-1);
 			const unsigned int result = _CountTrailingZeros(static_cast<unsigned long>((~mask) | value));
 			return static_cast<int>(result);
 		}
 
-		int countr_zero_arm(const unsigned short value) noexcept
+		inline int countr_zero_arm(const unsigned short value) noexcept
 		{
 			constexpr unsigned short mask = static_cast<unsigned short>(-1);
 			const unsigned int result = _CountTrailingZeros(static_cast<unsigned long>((~mask) | value));
@@ -658,7 +631,7 @@ namespace bit14
 			return static_cast<int>(result);
 		}
 
-		int countl_zero_arm(const unsigned char value) noexcept
+		inline int countl_zero_arm(const unsigned char value) noexcept
 		{
 			constexpr unsigned int diff = numeric_limits<unsigned long>::digits -
 				numeric_limits<unsigned char>::digits;
@@ -666,7 +639,7 @@ namespace bit14
 			return static_cast<int>(result - diff);
 		}
 
-		int countl_zero_arm(const unsigned short value) noexcept
+		inline int countl_zero_arm(const unsigned short value) noexcept
 		{
 			constexpr unsigned int diff = numeric_limits<unsigned long>::digits -
 				numeric_limits<unsigned short>::digits;
@@ -703,14 +676,14 @@ namespace bit14
 #endif
 
 #ifdef BIT14_MIGHT_HAVE_BMI_INTRINSICS
-		int countr_zero_bmi(const unsigned char value) noexcept
+		inline int countr_zero_bmi(const unsigned char value) noexcept
 		{
 			constexpr unsigned char mask = static_cast<unsigned char>(-1);
 			const unsigned int result = _tzcnt_u32(static_cast<unsigned int>((~mask) | value));
 			return static_cast<int>(result);
 		}
 
-		int countr_zero_bmi(const unsigned short value) noexcept
+		inline int countr_zero_bmi(const unsigned short value) noexcept
 		{
 			const unsigned int result = _tzcnt_u16(value);
 			return static_cast<int>(result);
@@ -749,7 +722,7 @@ namespace bit14
 #endif //end of #ifdef BIT14_MIGHT_HAVE_BMI_INTRINSICS
 
 #ifdef BIT14_HAS_BSF_INTRINSICS
-		int countr_zero_bsf(const unsigned char value) noexcept
+		inline int countr_zero_bsf(const unsigned char value) noexcept
 		{
 			constexpr unsigned long mask = ~static_cast<unsigned long>(-1);
 			unsigned long result;
@@ -760,7 +733,7 @@ namespace bit14
 			return static_cast<int>(result);
 		}
 
-		int countr_zero_bsf(const unsigned short value) noexcept
+		inline int countr_zero_bsf(const unsigned short value) noexcept
 		{
 			constexpr unsigned long mask = ~static_cast<unsigned long>(-1);
 			unsigned long result;
@@ -820,7 +793,7 @@ namespace bit14
 #endif
 
 #ifdef BIT14_HAS_ABM_INTRINSICS
-		int countl_zero(const unsigned char value) noexcept
+		inline int countl_zero(const unsigned char value) noexcept
 		{
 			constexpr unsigned int diff = numeric_limits<unsigned int>::digits -
 				numeric_limits<unsigned char>::digits;
@@ -828,7 +801,7 @@ namespace bit14
 			return static_cast<int>(result - diff);
 		}
 
-		int countl_zero(const unsigned short value) noexcept
+		inline int countl_zero(const unsigned short value) noexcept
 		{
 			constexpr unsigned int diff = numeric_limits<unsigned int>::digits -
 				numeric_limits<unsigned short>::digits;
@@ -866,7 +839,7 @@ namespace bit14
 		}
 #endif //end of #ifdef BIT14_USING_64BIT
 #elif defined(BIT14_HAS_BSR_INTRINSICS)
-		int countl_zero(const unsigned char value) noexcept
+		inline int countl_zero(const unsigned char value) noexcept
 		{
 			constexpr int digits = numeric_limits<unsigned char>::digits - 1;
 			unsigned long result;
@@ -877,7 +850,7 @@ namespace bit14
 			return numeric_limits<unsigned char>::digits;
 		}
 
-		int countl_zero(const unsigned short value) noexcept
+		inline int countl_zero(const unsigned short value) noexcept
 		{
 			constexpr int digits = numeric_limits<unsigned short>::digits - 1;
 			unsigned long result;
@@ -933,13 +906,13 @@ namespace bit14
 #endif //end of #ifdef BIT14_HAS_BSR_INTRINSICS
 
 #ifdef BIT14_HAS_ABM_INTRINSICS
-		int popcount(const unsigned char value) noexcept
+		inline int popcount(const unsigned char value) noexcept
 		{
 			const unsigned int result = _mm_popcnt_u32(static_cast<unsigned int>(value));
 			return static_cast<int>(result);
 		}
 
-		int popcount(const unsigned short value) noexcept
+		inline int popcount(const unsigned short value) noexcept
 		{
 			const unsigned int result = _mm_popcnt_u32(static_cast<unsigned int>(value));
 			return static_cast<int>(result);
@@ -993,6 +966,7 @@ namespace bit14
 	using detail::use_if_bit14_32_bit_or_less_type;
 	using detail::use_if_unsigned_char;
 	using detail::use_if_unsigned_short;
+	using detail::use_if_unsigned_int;
 	using detail::use_if_unsigned_long;
 	using detail::use_if_unsigned_long_long;
 	using detail::use_if_integral;

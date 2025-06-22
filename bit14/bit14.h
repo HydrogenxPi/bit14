@@ -2,40 +2,14 @@
 
 #pragma once
 
-/*=================================================================================
-===================================================================================
-|||	MIT License
-|||
-|||	Copyright (c) 2024, agrem44@gmail.com
-|||
-|||	Permission is hereby granted, free of charge, to any person obtaining a copy
-|||	of this software and associated documentation files (the "Software"), to deal
-|||	in the Software without restriction, including without limitation the rights
-|||	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-|||	copies of the Software, and to permit persons to whom the Software is
-|||	furnished to do so, subject to the following conditions:
-|||
-|||	The above copyright notice and this permission notice shall be included in all
-|||	copies or substantial portions of the Software.
-|||
-|||	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-|||	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-|||	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-|||	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-|||	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-|||	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-|||	SOFTWARE.
-===================================================================================
-===================================================================================*/
-
 /*=======================================================================
 =========================================================================
-||| This is a recreation of the c++20 bit header written in ISO C++14.
+||| This is a recreation of the C++20 bit.h header written in ISO C++14.
 ||| https://en.cppreference.com/w/cpp/header/bit
 |||	This project is intended for anyone who wishes to use the standard
-|||	library header bit.h but is stuck on c++14 or c++17.
+|||	library header bit.h but is stuck on C++14 or C++17.
 |||	Simply add the folder containing this header to the list of include
-|||	directories in your project and #inclde header bit14.h where desired.
+|||	directories in your project and #include header bit14.h where desired.
 ||| On msvc, gcc, clang, IBM XL / Open XL for Linux or AIX,
 |||	or Intel ICC / ICPX compilers it uses x86, ARM or Power intrinsics
 |||	whenever available. Otherwise, it falls back on a generic solution.
@@ -237,7 +211,7 @@ namespace bit14
 
 #endif //end of #if defined(_M_ARM) || defined(_M_ARM64)
 
-	unsigned char rotl(const unsigned char value, int shift) noexcept
+	inline unsigned char rotl(const unsigned char value, int shift) noexcept
 	{
 		const bool is_neg = shift < 0;
 		shift = shift % numeric_limits<unsigned char>::digits;
@@ -248,7 +222,7 @@ namespace bit14
 			return _rotl8(value, static_cast<unsigned char>(shift));
 	}
 
-	unsigned short rotl(const unsigned short value, int shift) noexcept
+	inline unsigned short rotl(const unsigned short value, int shift) noexcept
 	{
 		const bool is_neg = shift < 0;
 		shift = shift % numeric_limits<unsigned short>::digits;;
@@ -259,7 +233,7 @@ namespace bit14
 			return _rotl16(value, static_cast<unsigned char>(shift));
 	}
 
-	unsigned char rotr(const unsigned char value, int shift) noexcept
+	inline unsigned char rotr(const unsigned char value, int shift) noexcept
 	{
 		const bool is_neg = shift < 0;
 		shift = shift % numeric_limits<unsigned char>::digits;
@@ -270,10 +244,10 @@ namespace bit14
 			return _rotr8(value, static_cast<unsigned char>(shift));
 	}
 
-	unsigned short rotr(const unsigned short value, int shift) noexcept
+	inline unsigned short rotr(const unsigned short value, int shift) noexcept
 	{
 		const bool is_neg = shift < 0;
-		shift = shift % numeric_limits<unsigned short>::digits;;
+		shift = shift % numeric_limits<unsigned short>::digits;
 
 		if (is_neg)
 			return _rotl16(value, static_cast<unsigned char>(-shift));
@@ -282,34 +256,34 @@ namespace bit14
 	}
 #endif //end of #if defined(_WIN64) || defined(_M_IX86) || defined(_M_ARM)
 
-	unsigned int rotl(const unsigned int value, int shift) noexcept
+	inline unsigned int rotl(const unsigned int value, int shift) noexcept
 	{
 		return _rotl(value, shift);
 	}
 
-	unsigned long rotl(const unsigned long value, int shift) noexcept
+	inline unsigned long rotl(const unsigned long value, int shift) noexcept
 	{
 		return _lrotl(value, shift);
 	}
 
 	//_rotl64 is still valid in x86 mode
-	unsigned long long rotl(const unsigned long long value, int shift) noexcept
+	inline unsigned long long rotl(const unsigned long long value, int shift) noexcept
 	{
 		return _rotl64(static_cast<unsigned __int64>(value), shift);
 	}
 
-	unsigned int rotr(const unsigned int value, int shift) noexcept
+	inline unsigned int rotr(const unsigned int value, int shift) noexcept
 	{
 		return _rotr(value, shift);
 	}
 
-	unsigned long rotr(const unsigned long value, int shift) noexcept
+	inline unsigned long rotr(const unsigned long value, int shift) noexcept
 	{
 		return _lrotr(value, shift);
 	}
 
 	//_rotr64 is still valid in x86 mode
-	unsigned long long rotr(const unsigned long long value, int shift) noexcept
+	inline unsigned long long rotr(const unsigned long long value, int shift) noexcept
 	{
 		return _rotr64(static_cast<unsigned __int64>(value), shift);
 	}
@@ -421,53 +395,53 @@ namespace bit14
 		return detail::countl_zero(value);
 	}
 
-	unsigned char rotl(const unsigned char value, const int shift) noexcept
+	inline unsigned char rotl(const unsigned char value, const int shift) noexcept
 	{
 		return detail::rotl_fallback(value, shift);
 	}
 
-	unsigned short rotl(const unsigned short value, const int shift) noexcept
+	inline unsigned short rotl(const unsigned short value, const int shift) noexcept
 	{
 		return detail::rotl_fallback(value, shift);
 	}
 
-	unsigned int rotl(const unsigned int value, const int shift) noexcept
+	inline unsigned int rotl(const unsigned int value, const int shift) noexcept
 	{
 		return _rotl(value, shift);
 	}
 
-	unsigned long rotl(const unsigned long value, const int shift) noexcept
+	inline unsigned long rotl(const unsigned long value, const int shift) noexcept
 	{
 		return _lrotl(value, shift);
 	}
 
-	unsigned long long rotl(const unsigned long long value, const int shift) noexcept
+	inline unsigned long long rotl(const unsigned long long value, const int shift) noexcept
 	{
 		const unsigned __int64 result = _rotl64(static_cast<unsigned __int64>(value), shift);
 		return static_cast<unsigned long long>(result);
 	}
 
-	unsigned char rotr(const unsigned char value, const int shift) noexcept
+	inline unsigned char rotr(const unsigned char value, const int shift) noexcept
 	{
 		return detail::rotr_fallback(value, shift);
 	}
 
-	unsigned short rotr(const unsigned short value, const int shift) noexcept
+	inline unsigned short rotr(const unsigned short value, const int shift) noexcept
 	{
 		return detail::rotr_fallback(value, shift);
 	}
 
-	unsigned int rotr(const unsigned int value, const int shift) noexcept
+	inline unsigned int rotr(const unsigned int value, const int shift) noexcept
 	{
 		return _rotr(value, shift);
 	}
 
-	unsigned long rotr(const unsigned long value, const int shift) noexcept
+	inline unsigned long rotr(const unsigned long value, const int shift) noexcept
 	{
 		return _lrotr(value, shift);
 	}
 
-	unsigned long long rotr(const unsigned long long value, const int shift) noexcept
+	inline unsigned long long rotr(const unsigned long long value, const int shift) noexcept
 	{
 		const unsigned __int64 result = _rotr64(static_cast<unsigned __int64>(value), shift);
 		return static_cast<unsigned long long>(result);
@@ -515,27 +489,27 @@ namespace bit14
 #undef BIT14_COUNTL_ZERO_FALLBACK
 #undef BIT14_BYTESWAP_FALLBACK
 
-	int popcount(const unsigned char value) noexcept
+	inline int popcount(const unsigned char value) noexcept
 	{
 		return __builtin_popcount(static_cast<unsigned int>(value));
 	}
 
-	int popcount(const unsigned short value) noexcept
+	inline int popcount(const unsigned short value) noexcept
 	{
 		return __builtin_popcount(static_cast<unsigned int>(value));
 	}
 
-	int popcount(const unsigned int value) noexcept
+	inline int popcount(const unsigned int value) noexcept
 	{
 		return __builtin_popcount(value);
 	}
 
-	int popcount(const unsigned long value) noexcept
+	inline int popcount(const unsigned long value) noexcept
 	{
 		return __builtin_popcountl(value);
 	}
 
-	int popcount(const unsigned long long value) noexcept
+	inline int popcount(const unsigned long long value) noexcept
 	{
 		return __builtin_popcountll(value);
 	}
@@ -873,7 +847,7 @@ namespace bit14
 #define IBM_ROTL_64(x, y) __rotatel8(x, y)
 #endif
 
-	int countr_zero(const unsigned char value) noexcept
+	inline int countr_zero(const unsigned char value) noexcept
 	{
 		if (value == 0)
 			return numeric_limits<T>::digits;
@@ -883,7 +857,7 @@ namespace bit14
 		return static_cast<int>(result);
 	}
 
-	int countr_zero(const unsigned short value) noexcept
+	inline int countr_zero(const unsigned short value) noexcept
 	{
 		if (value == 0)
 			return numeric_limits<T>::digits;
@@ -913,7 +887,7 @@ namespace bit14
 		return static_cast<int>(result);
 	}
 
-	int countl_zero(const unsigned char value) noexcept
+	inline int countl_zero(const unsigned char value) noexcept
 	{
 		if (value == 0)
 			return numeric_limits<T>::digits;
@@ -924,7 +898,7 @@ namespace bit14
 		return static_cast<int>(result) - diff;
 	}
 
-	int countl_zero(const unsigned short value) noexcept
+	inline int countl_zero(const unsigned short value) noexcept
 	{
 		if (value == 0)
 			return numeric_limits<T>::digits;
@@ -955,12 +929,12 @@ namespace bit14
 		return static_cast<int>(result);
 	}
 
-	int popcount(const unsigned char value) noexcept
+	inline int popcount(const unsigned char value) noexcept
 	{
 		return IBM_POPCNT_32(static_cast<unsigned int>(value));
 	}
 
-	int popcount(const unsigned short value) noexcept
+	inline int popcount(const unsigned short value) noexcept
 	{
 		return IBM_POPCNT_32(static_cast<unsigned int>(value));
 	}
@@ -977,12 +951,12 @@ namespace bit14
 		return IBM_POPCNT_64(static_cast<unsigned long long>(value));
 	}
 
-	unsigned char rotl(const unsigned char value, const int shift) noexcept
+	inline unsigned char rotl(const unsigned char value, const int shift) noexcept
 	{
 		return detail::rotl_fallback(value, shift);
 	}
 
-	unsigned short rotl(const unsigned short value, const int shift) noexcept
+	inline unsigned short rotl(const unsigned short value, const int shift) noexcept
 	{
 		return detail::rotl_fallback(value, shift);
 	}
@@ -1019,12 +993,12 @@ namespace bit14
 		return static_cast<T>(result);
 	}
 
-	unsigned char rotr(const unsigned char value, const int shift) noexcept
+	inline unsigned char rotr(const unsigned char value, const int shift) noexcept
 	{
 		return detail::rotr_fallback(value, shift);
 	}
 
-	unsigned short rotr(const unsigned short value, const int shift) noexcept
+	inline unsigned short rotr(const unsigned short value, const int shift) noexcept
 	{
 		return detail::rotr_fallback(value, shift);
 	}
@@ -1148,7 +1122,7 @@ namespace bit14
 #endif //end of #ifdef BIT14_COUNTR_ZERO_FALLBACK
 
 #ifdef BIT14_COUNTL_ZERO_FALLBACK
-	int countl_zero(unsigned char value) noexcept
+	inline int countl_zero(unsigned char value) noexcept
 	{
 		value |= (value >> 1);
 		value |= (value >> 2);
@@ -1157,7 +1131,7 @@ namespace bit14
 		return numeric_limits<unsigned char>::digits - bit14::popcount(value);
 	}
 
-	int countl_zero(unsigned short value) noexcept
+	inline int countl_zero(unsigned short value) noexcept
 	{
 		value |= (value >> 1);
 		value |= (value >> 2);
@@ -1271,7 +1245,7 @@ namespace bit14
 		return dst;
 	}
 
-	unsigned char byteswap(const unsigned char value) noexcept
+	inline unsigned char byteswap(const unsigned char value) noexcept
 	{
 		return value;
 	}
